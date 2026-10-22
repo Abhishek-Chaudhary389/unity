@@ -1,0 +1,14 @@
+{
+  "name": "unity-print-pack-solution",
+  "version": "1.0.0",
+  "description": "Full Stack MERN Application for Unity Print Pack Solutions",
+  "scripts": {
+    "backend": "npm --prefix backend run dev",
+    "frontend": "npm --prefix unity-print run dev",
+    "seed": "npm --prefix backend run seed",
+    "backend:start": "npm --prefix backend start"
+  },
+  "keywords": ["mern", "unity-print", "packaging", "express", "mongodb"],
+  "author": "Unity Print Pack Solutions",
+  "license": "ISC"
+}
