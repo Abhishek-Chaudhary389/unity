@@ -1,4 +1,5 @@
 import { Client } from '../models/Client.js'
+import { uploadToImageKit, isImageKitConfigured } from '../config/imagekit.js'
 
 // @desc    Get all clients
 // @route   GET /api/clients
@@ -35,7 +36,7 @@ export const getClientById = async (req, res) => {
 // @route   POST /api/clients
 export const createClient = async (req, res) => {
     try {
-        const {
+        let {
             name,
             sector,
             category,
@@ -57,6 +58,16 @@ export const createClient = async (req, res) => {
 
         if (!name) {
             return res.status(400).json({ success: false, message: 'Client name is required' })
+        }
+
+        // Auto upload base64 image to ImageKit Cloud
+        if (packagingImage && packagingImage.startsWith('data:image/') && isImageKitConfigured) {
+            try {
+                const ikRes = await uploadToImageKit(packagingImage, `client_${Date.now()}.jpg`, '/unity_clients')
+                packagingImage = ikRes.url
+            } catch (ikErr) {
+                console.warn('ImageKit client upload warning:', ikErr.message)
+            }
         }
 
         const client = await Client.create({
@@ -89,8 +100,21 @@ export const createClient = async (req, res) => {
 // @route   PUT /api/clients/:id
 export const updateClient = async (req, res) => {
     try {
-        const { deliverables, ...rest } = req.body
+        const { deliverables, packagingImage, ...rest } = req.body
         const updateData = { ...rest }
+
+        if (packagingImage) {
+            let finalImage = packagingImage
+            if (packagingImage.startsWith('data:image/') && isImageKitConfigured) {
+                try {
+                    const ikRes = await uploadToImageKit(packagingImage, `client_${Date.now()}.jpg`, '/unity_clients')
+                    finalImage = ikRes.url
+                } catch (ikErr) {
+                    console.warn('ImageKit client upload warning:', ikErr.message)
+                }
+            }
+            updateData.packagingImage = finalImage
+        }
 
         if (deliverables !== undefined) {
             updateData.deliverables = Array.isArray(deliverables) ? deliverables : typeof deliverables === 'string' ? deliverables.split(',').map(s => s.trim()).filter(Boolean) : []

@@ -1,4 +1,5 @@
 import { Gallery } from '../models/Gallery.js'
+import { uploadToImageKit, isImageKitConfigured } from '../config/imagekit.js'
 
 // @desc    Get all gallery photos
 // @route   GET /api/gallery
@@ -21,10 +22,20 @@ export const getGallery = async (req, res) => {
 // @route   POST /api/gallery
 export const createGalleryPhoto = async (req, res) => {
     try {
-        const { title, category, url } = req.body
+        let { title, category, url } = req.body
 
         if (!url) {
             return res.status(400).json({ success: false, message: 'Image URL is required' })
+        }
+
+        // Auto upload base64 to ImageKit Cloud
+        if (url.startsWith('data:image/') && isImageKitConfigured) {
+            try {
+                const ikRes = await uploadToImageKit(url, `gallery_${Date.now()}.jpg`, '/unity_gallery')
+                url = ikRes.url
+            } catch (ikErr) {
+                console.warn('ImageKit gallery upload warning:', ikErr.message)
+            }
         }
 
         const photo = await Gallery.create({

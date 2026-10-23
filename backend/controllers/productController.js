@@ -1,4 +1,5 @@
 import { Product } from '../models/Product.js'
+import { uploadToImageKit, isImageKitConfigured } from '../config/imagekit.js'
 
 // @desc    Get all products (with optional filtering)
 // @route   GET /api/products
@@ -48,10 +49,20 @@ export const getProductById = async (req, res) => {
 // @route   POST /api/products
 export const createProduct = async (req, res) => {
     try {
-        const { title, category, categoryName, moq, image, description, specs, finishes, isFeatured } = req.body
+        let { title, category, categoryName, moq, image, description, specs, finishes, isFeatured } = req.body
 
         if (!title || !image) {
             return res.status(400).json({ success: false, message: 'Title and image are required' })
+        }
+
+        // Auto upload base64 images to ImageKit Cloud
+        if (image.startsWith('data:image/') && isImageKitConfigured) {
+            try {
+                const ikRes = await uploadToImageKit(image, `product_${Date.now()}.jpg`, '/unity_products')
+                image = ikRes.url
+            } catch (ikErr) {
+                console.warn('ImageKit auto-upload warning:', ikErr.message)
+            }
         }
 
         const product = await Product.create({
@@ -76,8 +87,21 @@ export const createProduct = async (req, res) => {
 // @route   PUT /api/products/:id
 export const updateProduct = async (req, res) => {
     try {
-        const { finishes, ...rest } = req.body
+        const { finishes, image, ...rest } = req.body
         const updateData = { ...rest }
+
+        if (image) {
+            let finalImage = image
+            if (image.startsWith('data:image/') && isImageKitConfigured) {
+                try {
+                    const ikRes = await uploadToImageKit(image, `product_${Date.now()}.jpg`, '/unity_products')
+                    finalImage = ikRes.url
+                } catch (ikErr) {
+                    console.warn('ImageKit auto-upload warning:', ikErr.message)
+                }
+            }
+            updateData.image = finalImage
+        }
 
         if (finishes !== undefined) {
             updateData.finishes = Array.isArray(finishes) ? finishes : typeof finishes === 'string' ? finishes.split(',').map(s => s.trim()).filter(Boolean) : []

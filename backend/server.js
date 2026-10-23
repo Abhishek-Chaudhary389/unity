@@ -12,6 +12,7 @@ import galleryRoutes from './routes/galleryRoutes.js'
 import clientRoutes from './routes/clientRoutes.js'
 import enquiryRoutes from './routes/enquiryRoutes.js'
 import uploadRoutes from './routes/uploadRoutes.js'
+import { isImageKitConfigured } from './config/imagekit.js'
 
 // Load environment variables
 dotenv.config()
@@ -67,6 +68,7 @@ app.get('/api/health', (req, res) => {
         success: true,
         message: 'Unity Print Pack Solutions Backend API is running smoothly 🚀',
         databaseConnected: getDbStatus(),
+        imageKitConnected: isImageKitConfigured,
         timestamp: new Date().toISOString()
     })
 })

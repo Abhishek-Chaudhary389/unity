@@ -81,7 +81,12 @@ export default function Admin() {
 
         // Check backend server connection
         checkBackendHealth().then((res) => {
-            setBackendStatus({ connected: res.success, dbConnected: res.databaseConnected, checked: true })
+            setBackendStatus({
+                connected: res.success,
+                dbConnected: res.databaseConnected,
+                imageKitConnected: res.imageKitConnected,
+                checked: true
+            })
         })
 
         // Fetch live data from MongoDB
@@ -494,6 +499,12 @@ export default function Admin() {
                             <span className="text-slate-500 uppercase tracking-wider">MongoDB:</span>
                             <span className={backendStatus.dbConnected ? "text-emerald-600 font-bold" : "text-amber-600 font-bold"}>
                                 {backendStatus.dbConnected ? "● Connected" : "○ Pending Atlas/URI"}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between font-semibold">
+                            <span className="text-slate-500 uppercase tracking-wider">ImageKit CDN:</span>
+                            <span className={backendStatus.imageKitConnected ? "text-emerald-600 font-bold" : "text-amber-600 font-bold"}>
+                                {backendStatus.imageKitConnected ? "● Connected (Cloud)" : "○ Local"}
                             </span>
                         </div>
                     </div>
