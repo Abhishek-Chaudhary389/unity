@@ -16,7 +16,7 @@ import {
     saveStoredProducts,
     productCategories
 } from '../data/productData'
-import { getProductsAPI, createProductAPI } from '../services/api'
+import { getProductsAPI, createProductAPI, uploadImageAPI } from '../services/api'
 
 export default function Product() {
     const [products, setProducts] = useState([])
@@ -49,14 +49,20 @@ export default function Product() {
         }).catch(() => {})
     }, [])
 
-    const handleImageUpload = (e) => {
+    const handleImageUpload = async (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setNewProduct((prev) => ({ ...prev, image: reader.result }))
+            try {
+                const cdnUrl = await uploadImageAPI(file)
+                setNewProduct((prev) => ({ ...prev, image: cdnUrl }))
+            } catch (err) {
+                console.warn('ImageKit direct upload warning, using local preview:', err.message)
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setNewProduct((prev) => ({ ...prev, image: reader.result }))
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         }
     }
 

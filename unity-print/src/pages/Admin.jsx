@@ -58,7 +58,8 @@ import {
     createClientAPI,
     updateClientAPI,
     deleteClientAPI,
-    checkBackendHealth
+    checkBackendHealth,
+    uploadImageAPI
 } from '../services/api'
 
 export default function Admin() {
@@ -132,14 +133,22 @@ export default function Admin() {
         isFeatured: false
     })
 
-    const handleProductImageUpload = (e) => {
+    const handleProductImageUpload = async (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setProductForm((prev) => ({ ...prev, image: reader.result }))
+            showToast('⏳ Uploading image to ImageKit Cloud CDN...')
+            try {
+                const cdnUrl = await uploadImageAPI(file)
+                setProductForm((prev) => ({ ...prev, image: cdnUrl }))
+                showToast('✅ Uploaded to ImageKit Cloud!')
+            } catch (err) {
+                console.warn('ImageKit direct upload warning, using local preview:', err.message)
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setProductForm((prev) => ({ ...prev, image: reader.result }))
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         }
     }
 
@@ -247,14 +256,22 @@ export default function Admin() {
     })
     const [selectedLightboxPhoto, setSelectedLightboxPhoto] = useState(null)
 
-    const handleGalleryImageUpload = (e) => {
+    const handleGalleryImageUpload = async (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setGalleryForm((prev) => ({ ...prev, url: reader.result }))
+            showToast('⏳ Uploading gallery photo to ImageKit Cloud CDN...')
+            try {
+                const cdnUrl = await uploadImageAPI(file)
+                setGalleryForm((prev) => ({ ...prev, url: cdnUrl }))
+                showToast('✅ Uploaded to ImageKit Cloud!')
+            } catch (err) {
+                console.warn('ImageKit direct upload warning, using local preview:', err.message)
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setGalleryForm((prev) => ({ ...prev, url: reader.result }))
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         }
     }
 
@@ -306,14 +323,22 @@ export default function Admin() {
         reviewerRole: ''
     })
 
-    const handleClientImageUpload = (e) => {
+    const handleClientImageUpload = async (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setClientForm((prev) => ({ ...prev, packagingImage: reader.result }))
+            showToast('⏳ Uploading brand photo to ImageKit Cloud CDN...')
+            try {
+                const cdnUrl = await uploadImageAPI(file)
+                setClientForm((prev) => ({ ...prev, packagingImage: cdnUrl }))
+                showToast('✅ Uploaded to ImageKit Cloud!')
+            } catch (err) {
+                console.warn('ImageKit direct upload warning, using local preview:', err.message)
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setClientForm((prev) => ({ ...prev, packagingImage: reader.result }))
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         }
     }
 

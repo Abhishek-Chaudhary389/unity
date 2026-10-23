@@ -14,7 +14,7 @@ import {
     saveStoredGalleryPhotos,
     GALLERY_STORAGE_KEY as STORAGE_KEY
 } from '../data/galleryData'
-import { getGalleryAPI, createGalleryPhotoAPI } from '../services/api'
+import { getGalleryAPI, createGalleryPhotoAPI, uploadImageAPI } from '../services/api'
 
 export default function Gallery() {
     const [photos, setPhotos] = useState([])
@@ -43,14 +43,20 @@ export default function Gallery() {
         }
     }
 
-    const handleFileUpload = (e) => {
+    const handleFileUpload = async (e) => {
         const file = e.target.files?.[0]
         if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setNewPhotoUrl(reader.result)
+            try {
+                const cdnUrl = await uploadImageAPI(file)
+                setNewPhotoUrl(cdnUrl)
+            } catch (err) {
+                console.warn('ImageKit direct upload warning, using local preview:', err.message)
+                const reader = new FileReader()
+                reader.onloadend = () => {
+                    setNewPhotoUrl(reader.result)
+                }
+                reader.readAsDataURL(file)
             }
-            reader.readAsDataURL(file)
         }
     }
 
