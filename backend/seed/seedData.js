@@ -1,10 +1,15 @@
 import dotenv from 'dotenv'
 import path from 'path'
+import dns from 'dns'
 import mongoose from 'mongoose'
 import { Product } from '../models/Product.js'
 import { Gallery } from '../models/Gallery.js'
 import { Client } from '../models/Client.js'
 import { Admin } from '../models/Admin.js'
+
+try {
+    dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1'])
+} catch (e) {}
 
 dotenv.config({ path: path.resolve('.env') })
 
