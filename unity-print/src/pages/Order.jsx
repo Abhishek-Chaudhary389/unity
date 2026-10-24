@@ -10,7 +10,8 @@ import {
     Clock,
     PhoneCall,
     ArrowRight,
-    MessageSquare
+    MessageSquare,
+    X
 } from 'lucide-react'
 import { submitEnquiryAPI } from '../services/api'
 
@@ -26,6 +27,7 @@ export default function Order() {
         message: ''
     })
 
+    const [selectedProduct, setSelectedProduct] = useState('')
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [toastMsg, setToastMsg] = useState('')
 
@@ -36,14 +38,16 @@ export default function Order() {
         const clientProjectParam = params.get('clientProject')
 
         if (productParam) {
+            setSelectedProduct(productParam)
             setFormData((prev) => ({
                 ...prev,
-                message: `Inquiring about ${productParam} custom manufacturing and order placement.`
+                message: prev.message || `Inquiring about ${productParam} custom manufacturing and order placement.`
             }))
         } else if (clientProjectParam) {
+            setSelectedProduct(`Custom Packaging for ${clientProjectParam}`)
             setFormData((prev) => ({
                 ...prev,
-                message: `I saw your packaging work for ${clientProjectParam} and would like to place a similar bespoke packaging order.`
+                message: prev.message || `I saw your packaging work for ${clientProjectParam} and would like to place a similar bespoke packaging order.`
             }))
         }
     }, [location.search])
@@ -59,15 +63,19 @@ export default function Order() {
         setToastMsg('🎉 Saving your order & opening WhatsApp...')
 
         // Save order to MongoDB in background
-        submitEnquiryAPI(formData).catch((err) => {
+        submitEnquiryAPI({
+            ...formData,
+            productName: selectedProduct || ''
+        }).catch((err) => {
             console.warn('Backend enquiry save warning:', err.message)
         })
 
-        // Format message for WhatsApp
+        // Format message for WhatsApp (Phone: 98604 55398)
         const whatsappNumber = '919860455398'
         const textLines = [
             `*📦 NEW PACKAGING ORDER - UNITY PRINT PACK*`,
             ``,
+            selectedProduct ? `🏷️ *Product Ordered:* ${selectedProduct}` : null,
             `👤 *Customer Name:* ${formData.fullName}`,
             formData.companyName ? `🏢 *Company / Brand:* ${formData.companyName}` : null,
             `📞 *Phone / WhatsApp:* ${formData.phone}`,
@@ -143,6 +151,29 @@ export default function Order() {
                             100% In-House Production
                         </span>
                     </div>
+
+                    {/* Pre-selected Product Banner (if arrived via a product's Order button) */}
+                    {selectedProduct && (
+                        <div className="mb-6 p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex items-center justify-between gap-3 animate-fade-in">
+                            <div className="flex items-center gap-3">
+                                <div className="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center flex-shrink-0">
+                                    <Package className="w-5 h-5 text-amber-700" />
+                                </div>
+                                <div>
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800">Selected Product:</span>
+                                    <p className="text-sm font-bold text-slate-900 leading-snug">{selectedProduct}</p>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setSelectedProduct('')}
+                                className="p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-amber-100/60 transition-colors cursor-pointer"
+                                title="Remove selected product"
+                            >
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                    )}
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Name & Company Row */}
@@ -231,13 +262,30 @@ export default function Order() {
                                 className="w-full py-4 px-6 rounded-2xl text-sm font-bold text-white bg-[#0c1b33] hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                             >
                                 <MessageSquare className="w-4 h-4 text-emerald-400" />
-                                <span>{isSubmitted ? 'Opening WhatsApp...' : 'Submit Packaging Order'}</span>
+                                <span>{isSubmitted ? 'Opening WhatsApp...' : 'Submit Order to WhatsApp (+91 98604 55398)'}</span>
                             </button>
+                            <p className="text-center text-[11px] text-slate-500 mt-2">
+                                Your order query is forwarded directly to WhatsApp <strong>+91 98604 55398</strong> for immediate factory pricing.
+                            </p>
                         </div>
                     </form>
 
+                    {/* Direct WhatsApp Callout */}
+                    <div className="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+                        <span>Prefer to chat directly?</span>
+                        <a
+                            href="https://wa.me/919860455398?text=Hi%20Unity%20Print%20Pack,%20I%20want%20to%20place%20a%20custom%20packaging%20order."
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1.5 font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-full border border-emerald-200 transition-colors cursor-pointer"
+                        >
+                            <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Direct WhatsApp: +91 98604 55398</span>
+                        </a>
+                    </div>
+
                     {/* Order Trust Badges */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-8 mt-8 border-t border-slate-100 text-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 mt-6 border-t border-slate-100 text-center">
                         <div className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 py-2.5 px-3 rounded-xl">
                             <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0" />
                             <span>Zero Middlemen Margin</span>
@@ -257,7 +305,7 @@ export default function Order() {
                 <div className="text-center mt-6 text-xs text-slate-500">
                     Need factory assistance first?{' '}
                     <Link to="/connect" className="text-sky-600 font-semibold hover:underline">
-                        View our factory address and phone numbers
+                        View our factory address and phone numbers (+91 98604 55398)
                     </Link>
                 </div>
             </div>

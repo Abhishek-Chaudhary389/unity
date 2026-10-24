@@ -200,11 +200,11 @@ export default function Client() {
                                 <ArrowRight className="w-4 h-4" />
                             </Link>
                             <a
-                                href="tel:+918956055398"
+                                href="tel:+919860455398"
                                 className="px-5 py-3 rounded-full text-xs sm:text-sm font-bold text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-2"
                             >
                                 <PhoneCall className="w-4 h-4 text-emerald-400" />
-                                <span>Call: +91 8956 055 398</span>
+                                <span>Call: +91 98604 55398</span>
                             </a>
                         </div>
                     </div>

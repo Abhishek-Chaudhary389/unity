@@ -402,11 +402,11 @@ export default function About() {
                             <ArrowRight className="w-4 h-4" />
                         </Link>
                         <a
-                            href="tel:+918956055398"
+                            href="tel:+919860455398"
                             className="inline-flex items-center gap-1.5 px-5 py-3 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all"
                         >
                             <Phone className="w-3.5 h-3.5 text-yellow-400" />
-                            <span>Call: +91 8956 055 398</span>
+                            <span>Call: +91 98604 55398</span>
                         </a>
                     </div>
                 </div>

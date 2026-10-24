@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
     LayoutDashboard,
     Package,
@@ -31,7 +31,8 @@ import {
     AlertCircle,
     Cloud,
     CloudUpload,
-    RefreshCw
+    RefreshCw,
+    LogOut
 } from 'lucide-react'
 import {
     getStoredProducts,
@@ -62,10 +63,27 @@ import {
     updateClientAPI,
     deleteClientAPI,
     checkBackendHealth,
-    uploadImageAPI
+    uploadImageAPI,
+    logoutAdmin
 } from '../services/api'
 
 export default function Admin() {
+    const navigate = useNavigate()
+    const [adminUser, setAdminUser] = useState(() => {
+        try {
+            return JSON.parse(localStorage.getItem('adminUser')) || { name: 'Admin', email: 'admin@unityprint.com' }
+        } catch {
+            return { name: 'Admin', email: 'admin@unityprint.com' }
+        }
+    })
+
+    const handleLogout = () => {
+        if (window.confirm('Are you sure you want to log out of Admin Portal?')) {
+            logoutAdmin()
+            navigate('/admin/login', { replace: true })
+        }
+    }
+
     // Current Active Tab: 'dashboard' | 'products' | 'gallery' | 'clients'
     const [activeTab, setActiveTab] = useState('dashboard')
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -709,15 +727,22 @@ export default function Admin() {
                     </div>
                 </div>
 
-                {/* Bottom: Terminate Session / Back to Website */}
-                <div className="p-4 border-t border-slate-100">
+                {/* Bottom: View Website & Logout */}
+                <div className="p-4 border-t border-slate-100 space-y-2">
                     <Link
                         to="/"
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all shadow-2xs group"
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all shadow-2xs group"
                     >
                         <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-700" />
                         <span>View Live Website</span>
                     </Link>
+                    <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100/80 border border-rose-200/60 transition-all cursor-pointer"
+                    >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span>Log Out</span>
+                    </button>
                 </div>
             </aside>
 
@@ -767,15 +792,24 @@ export default function Admin() {
                         {/* Profile Pill */}
                         <div className="flex items-center gap-2.5 pl-2 border-l border-slate-100">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-600 to-rose-500 flex items-center justify-center text-white text-xs font-extrabold shadow-sm">
-                                SA
+                                {adminUser?.name ? adminUser.name.slice(0, 2).toUpperCase() : 'AD'}
                             </div>
                             <div className="hidden sm:flex flex-col text-left leading-tight">
-                                <span className="text-xs font-bold text-slate-800">Admin Portal</span>
+                                <span className="text-xs font-bold text-slate-800">{adminUser?.name || 'Administrator'}</span>
                                 <span className="text-[9px] font-extrabold text-slate-400 tracking-wider">
-                                    SUPER ADMIN
+                                    {adminUser?.role?.toUpperCase() || 'ADMIN'}
                                 </span>
                             </div>
                         </div>
+
+                        {/* Top Logout Button */}
+                        <button
+                            onClick={handleLogout}
+                            className="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                            title="Log Out of Admin Portal"
+                        >
+                            <LogOut className="w-4 h-4" />
+                        </button>
                     </div>
                 </header>
 

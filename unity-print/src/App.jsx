@@ -10,6 +10,9 @@ import Gallery from './pages/Gallery'
 import Connect from './pages/Connect'
 import Order from './pages/Order'
 import Admin from './pages/Admin'
+import AdminLogin from './pages/AdminLogin'
+import ProtectedRoute from './components/ProtectedRoute'
+import WhatsAppQuery from './components/WhatsAppQuery'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -39,7 +42,15 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<Product />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/client" element={<Client />} />
           <Route path="/about" element={<About />} />
           <Route path="/gallery" element={<Gallery />} />
@@ -48,6 +59,7 @@ function AppContent() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      {!isAdmin && <WhatsAppQuery />}
       {!isAdmin && <Footer />}
     </div>
   )

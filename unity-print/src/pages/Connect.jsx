@@ -162,8 +162,8 @@ export default function Connect() {
                                             A11, 304, Saffron, Megapolis, Hinjawadi Phase IV, Pune - 411057
                                         </div>
                                         <div className="text-xs text-sky-700 font-semibold mt-1">
-                                            <a href="tel:+918956055398" className="hover:underline">
-                                                📞 +91 8956 055 398
+                                            <a href="tel:+919860455398" className="hover:underline">
+                                                📞 +91 98604 55398
                                             </a>
                                         </div>
                                     </div>
@@ -359,7 +359,7 @@ export default function Connect() {
                                         className="w-full py-3.5 px-6 rounded-2xl text-xs sm:text-sm font-bold text-white bg-[#0c1b33] hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                                     >
                                         <MessageSquare className="w-4 h-4 text-emerald-400" />
-                                        <span>{isSubmitted ? 'Opening WhatsApp...' : 'Submit Packaging Order'}</span>
+                                        <span>{isSubmitted ? 'Opening WhatsApp...' : 'Submit Query to WhatsApp (+91 98604 55398)'}</span>
                                     </button>
                                 </div>
                             </form>

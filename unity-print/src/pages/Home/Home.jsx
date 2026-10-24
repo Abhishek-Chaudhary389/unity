@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
     ArrowRight,
-    Download,
     ChevronLeft,
     ChevronRight,
     CheckCircle2,
     Sparkles,
-    Phone
+    Phone,
+    Package
 } from 'lucide-react'
 import unityHeroImg from '../../assets/unity home.png'
+import {
+    getStoredProducts,
+    saveStoredProducts
+} from '../../data/productData'
+import { getProductsAPI } from '../../services/api'
 
 export default function Home() {
     // 4 Showcase packaging & print items from client's portfolio
@@ -35,25 +40,6 @@ export default function Home() {
         },
         {
             id: 2,
-            title: 'Hospital & Institutional Case File Folders',
-            category: 'Document & Case Folders',
-            tag: 'Durable Corporate Stationery',
-            image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480',
-            description: 'Heavy-duty laminated medical case file folders and institutional document holders. Designed with custom multi-pocket die-cutting, patient record charts, tear-resistant creasing, and durable long-term storage.',
-            specs: [
-                { label: 'MOQ', value: '500 pcs' },
-                { label: 'Paper Stock', value: '300 - 350 GSM Art Card' },
-                { label: 'Lamination', value: 'Gloss / Matte Thermal' },
-                { label: 'Pocket Style', value: 'Single / Dual Die-Cut Pockets' },
-            ],
-            points: [
-                'Reinforced spine creasing preventing tears during frequent usage',
-                'Custom bilingual layouts for hospital charts, forms & doctor info',
-                'Moisture-resistant thermal film lamination for extended durability',
-            ],
-        },
-        {
-            id: 3,
             title: 'Promotional Flyers, Leaflets & Marketing Prints',
             category: 'Commercial & Promotional Print',
             tag: 'High-Impact Promotional Print',
@@ -72,7 +58,7 @@ export default function Home() {
             ],
         },
         {
-            id: 4,
+            id: 3,
             title: 'Retail Shelf Packaging & Confectionery Cartons',
             category: 'FMCG Retail Cartons',
             tag: 'Shelf-Ready Retail Cartons',
@@ -136,6 +122,21 @@ export default function Home() {
 
     const activeItem = showcaseItems[currentSlide]
 
+    const [products, setProducts] = useState([])
+
+    // Load products from cache and backend
+    useEffect(() => {
+        const local = getStoredProducts()
+        if (local && local.length > 0) setProducts(local)
+
+        getProductsAPI().then((apiProds) => {
+            if (apiProds && apiProds.length > 0) {
+                setProducts(apiProds)
+                saveStoredProducts(apiProds)
+            }
+        }).catch(() => {})
+    }, [])
+
     return (
         <div className="flex flex-col w-full bg-[#fdfdfd]">
             {/* ================= 1. HERO BANNER ================= */}
@@ -184,17 +185,13 @@ export default function Home() {
                                 <ArrowRight className="w-4 h-4" />
                             </Link>
 
-                            <a
-                                href="#catalogue"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    alert('Catalogue download will be available soon.')
-                                }}
+                            <Link
+                                to="/product"
                                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-[#8c5e26] bg-white hover:bg-slate-50 border border-[#cca679] shadow-2xs hover:shadow-xs transition-all cursor-pointer"
                             >
-                                <Download className="w-3.5 h-3.5 text-[#8c5e26]" />
-                                <span>Download Catalogue</span>
-                            </a>
+                                <Package className="w-4 h-4 text-[#8c5e26]" />
+                                <span>Product</span>
+                            </Link>
                         </div>
                     </div>
 
@@ -226,17 +223,13 @@ export default function Home() {
                                 <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </Link>
 
-                            <a
-                                href="#catalogue"
-                                onClick={(e) => {
-                                    e.preventDefault()
-                                    alert('Catalogue download will be available soon.')
-                                }}
+                            <Link
+                                to="/product"
                                 className="inline-flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold text-[#8c5e26] bg-white hover:bg-slate-50 border border-[#cca679] shadow-2xs hover:shadow-xs transition-all cursor-pointer"
                             >
-                                <Download className="w-3.5 h-3.5 text-[#8c5e26]" />
-                                <span>Download Catalogue</span>
-                            </a>
+                                <Package className="w-3.5 h-3.5 text-[#8c5e26]" />
+                                <span>Product</span>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -312,8 +305,8 @@ export default function Home() {
                                 </div>
                             </div>
 
-                            {/* Thumbnail Row of all 4 Photos for Direct Clicking */}
-                            <div className="grid grid-cols-4 gap-2 sm:gap-2.5 pt-1">
+                            {/* Thumbnail Row of Photos for Direct Clicking */}
+                            <div className="grid grid-cols-3 gap-2 sm:gap-2.5 pt-1">
                                 {showcaseItems.map((item, idx) => (
                                     <button
                                         key={item.id}
@@ -387,15 +380,115 @@ export default function Home() {
                                 </Link>
 
                                 <a
-                                    href="tel:+918956055398"
+                                    href="tel:+919860455398"
                                     className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
                                 >
                                     <Phone className="w-3.5 h-3.5 text-slate-500" />
-                                    <span>+91 8956 055 398</span>
+                                    <span>+91 98604 55398</span>
                                 </a>
                             </div>
                         </div>
 
+                    </div>
+                </div>
+            </section>
+
+            {/* ================= 3. FEATURED PRODUCTS (3 ITEMS + SEE MORE) ================= */}
+            <section className="bg-white border-t border-slate-200/80 py-14 sm:py-20">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Section Top Header */}
+                    <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-amber-50 text-[#b47a36] border border-amber-200/70 mb-2">
+                            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                            <span>FEATURED PACKAGING PRODUCTS</span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#0c1b33] tracking-tight">
+                            Explore Our Packaging Range
+                        </h2>
+                        <p className="text-xs sm:text-sm text-slate-500 mt-1.5 max-w-lg mx-auto">
+                            High-precision offset printing, luxury rigid boxes, corrugated cartons, and custom packaging manufactured to your exact dieline specifications.
+                        </p>
+                    </div>
+
+                    {/* 3 Products Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                        {products.slice(0, 3).map((prod) => (
+                            <div
+                                key={prod.id}
+                                className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-2xl hover:border-sky-300 transition-all duration-300 overflow-hidden flex flex-col justify-between group"
+                            >
+                                <div>
+                                    {/* Image with Tag & MOQ Badges (Zero Cropping - No Top or Side Cut) */}
+                                    <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100/90 flex items-center justify-center">
+                                        {/* Ambient blur backdrop layer */}
+                                        <img
+                                            src={prod.image}
+                                            alt=""
+                                            aria-hidden="true"
+                                            className="absolute inset-0 w-full h-full object-cover blur-xl opacity-35 scale-110 pointer-events-none"
+                                        />
+                                        {/* Main uncropped image */}
+                                        <img
+                                            src={prod.image}
+                                            alt={prod.title}
+                                            className="relative z-1 max-w-full max-h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105 drop-shadow-sm"
+                                        />
+                                        <div className="absolute z-2 top-2.5 left-2.5 sm:top-3.5 sm:left-3.5 bg-white/95 backdrop-blur-md px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold text-slate-800 shadow-2xs border border-slate-100">
+                                            {prod.categoryName || 'Packaging'}
+                                        </div>
+                                        {prod.isFeatured && (
+                                            <div className="absolute z-2 top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 bg-amber-400 text-slate-900 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider shadow-2xs">
+                                                Featured
+                                            </div>
+                                        )}
+                                        <div className="absolute z-2 bottom-2.5 right-2.5 sm:bottom-3.5 sm:right-3.5 bg-black/75 backdrop-blur-md text-white px-2.5 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs font-semibold">
+                                            MOQ: {prod.moq}
+                                        </div>
+                                    </div>
+
+                                    {/* Card Content */}
+                                    <div className="p-4 sm:p-6">
+                                        <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-sky-600 transition-colors line-clamp-1 mb-1.5 sm:mb-2">
+                                            {prod.title}
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 sm:line-clamp-3 leading-relaxed">
+                                            {prod.description}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Card Footer Buttons */}
+                                <div className="p-3 sm:p-5 bg-slate-50/80 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                                    <Link
+                                        to={`/order?product=${encodeURIComponent(prod.title)}`}
+                                        className="flex-1 py-2 sm:py-2.5 px-3 sm:px-4 text-center rounded-xl text-xs sm:text-sm font-bold text-white bg-[#0c1b33] hover:bg-[#182b4a] shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                                    >
+                                        <span>Order</span>
+                                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                                    </Link>
+                                    <a
+                                        href={`https://wa.me/919860455398?text=Hi%20Unity%20Print%20Pack,%20I%20am%20interested%20in%20${encodeURIComponent(prod.title)}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="py-2 sm:py-2.5 px-3 sm:px-4 rounded-xl text-xs sm:text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors text-center"
+                                        title="Inquire on WhatsApp"
+                                    >
+                                        WhatsApp
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* See More Products CTA Button */}
+                    <div className="mt-10 sm:mt-14 text-center">
+                        <Link
+                            to="/product"
+                            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#0c1b33] hover:bg-[#182b4a] shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                        >
+                            <span>See More Products</span>
+                            <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
+                        </Link>
                     </div>
                 </div>
             </section>

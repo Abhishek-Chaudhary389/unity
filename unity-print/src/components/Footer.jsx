@@ -128,8 +128,8 @@ export default function Footer() {
                             <li className="flex items-start gap-2">
                                 <Phone className="w-3.5 h-3.5 text-amber-400 flex-shrink-0 mt-0.5" />
                                 <div className="flex flex-col gap-0.5">
-                                    <a href="tel:+918956055398" className="hover:text-white transition-colors font-medium">
-                                        Pune: +91 8956 055 398
+                                    <a href="tel:+919860455398" className="hover:text-white transition-colors font-medium">
+                                        Pune: +91 98604 55398
                                     </a>
                                     <a href="tel:+917218362436" className="hover:text-white transition-colors font-medium">
                                         Washim: +91 7218 362 436
