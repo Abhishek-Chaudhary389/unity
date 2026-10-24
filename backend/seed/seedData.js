@@ -38,33 +38,33 @@ const initialProducts = [
         isFeatured: true
     },
     {
-        title: 'Boutique Kraft Paper Shopping Bag',
-        category: 'paper-bags',
-        categoryName: 'Paper Bags',
+        title: 'Custom Food & Cookie Folding Cartons',
+        category: 'cartons',
+        categoryName: 'Folding Cartons',
         moq: '1,000 pcs',
-        image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1000&auto=format&fit=crop',
-        description: '100% biodegradable virgin brown kraft paper bags with heavy-load reinforced bottom cardboards and twisted paper or braided cotton rope handles.',
-        specs: '220 - 300 GSM Virgin Kraft • Reinforced Bottom Board',
-        finishes: ['Pantone Spot Color', 'Twisted Rope Handle', 'Turnover Top'],
+        image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774632176_Clipboard_03-28-2025_06_wdxm6CVZK.webp?updatedAt=1792774634411',
+        description: 'Premium food-grade paperboard folding cartons engineered for bakery, cookies, confectionery, and FMCG products with vibrant multi-color offset print.',
+        specs: '300 - 400 GSM FBB / ITC Board • Auto-Lock Bottom',
+        finishes: ['Gloss / Matte UV Coating', 'Food-Safe Inks', 'Crash-Lock'],
         isFeatured: true
     },
     {
-        title: 'Waterproof Product Labels & Roll Stickers',
-        category: 'labels',
-        categoryName: 'Labels & Stickers',
-        moq: '1,000 pcs',
-        image: 'https://images.unsplash.com/photo-1608248597359-25081e7d5d78?q=80&w=1000&auto=format&fit=crop',
-        description: 'High-definition waterproof, oil-resistant and scratch-proof roll stickers on metallic foil, clear vinyl, and textured kraft paper for jars and bottles.',
-        specs: 'Chrome BOPP / Transparent PET • Machine Application Rolls',
-        finishes: ['Cold Foil Metallic', 'Matte UV Varnish', 'Custom Contour Cut'],
-        isFeatured: false
+        title: 'Hospital & Institutional Case File Folders',
+        category: 'print',
+        categoryName: 'Commercial Print',
+        moq: '500 pcs',
+        image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480',
+        description: 'Heavy-duty laminated medical case file folders and institutional document holders with custom multi-pocket die-cutting, patient record charts, and tear-resistant creased spine.',
+        specs: '300 - 350 GSM Art Card • Reinforced Creased Spine',
+        finishes: ['Gloss / Matte Thermal Lamination', 'Die-Cut Inner Pockets', 'Bilingual Print'],
+        isFeatured: true
     },
     {
         title: 'Folding Mono Cartons & Sleeves',
         category: 'cartons',
         categoryName: 'Folding Cartons',
         moq: '2,500 pcs',
-        image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1000&auto=format&fit=crop',
+        image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792772080690_Clipboard_03-28-2025_01_UzRNQNrvW.webp?updatedAt=1792772083109',
         description: 'Lightweight folding paperboard boxes for pharmaceuticals, cosmetics, and food retail shelves. Auto-lock bottom and clear PET display windows.',
         specs: '300 - 400 GSM Cyber SBS Board • Food-Grade Soy Inks',
         finishes: ['Drip-Off Matte & Gloss', 'Clear PET Window', 'Braille Emboss'],
@@ -85,9 +85,9 @@ const initialGalleryPhotos = [
         url: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop'
     },
     {
-        title: 'Boutique Kraft Paper Carry Bag',
-        category: 'Paper Bags',
-        url: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1200&auto=format&fit=crop'
+        title: 'Qoot Jeera Cookies Folding Carton',
+        category: 'Cartons',
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774632176_Clipboard_03-28-2025_06_wdxm6CVZK.webp?updatedAt=1792774634411'
     },
     {
         title: 'Cosmetics Folding Cartons',
@@ -100,9 +100,9 @@ const initialGalleryPhotos = [
         url: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=1200&auto=format&fit=crop'
     },
     {
-        title: 'Waterproof Security Roll Labels',
-        category: 'Labels',
-        url: 'https://images.unsplash.com/photo-1608248597359-25081e7d5d78?q=80&w=1200&auto=format&fit=crop'
+        title: 'Bhagawati Hospital Medical File Folder',
+        category: 'Print',
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480'
     }
 ]
 
