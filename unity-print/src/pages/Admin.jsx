@@ -28,7 +28,10 @@ import {
     Layers,
     Crown,
     MessageSquare,
-    AlertCircle
+    AlertCircle,
+    Cloud,
+    CloudUpload,
+    RefreshCw
 } from 'lucide-react'
 import {
     getStoredProducts,
@@ -255,6 +258,7 @@ export default function Admin() {
         url: ''
     })
     const [selectedLightboxPhoto, setSelectedLightboxPhoto] = useState(null)
+    const [isSyncingGallery, setIsSyncingGallery] = useState(false)
 
     const handleGalleryImageUpload = async (e) => {
         const file = e.target.files?.[0]
@@ -271,7 +275,61 @@ export default function Admin() {
                     setGalleryForm((prev) => ({ ...prev, url: reader.result }))
                 }
                 reader.readAsDataURL(file)
+                showToast('⚠️ Backend offline: Saved as local preview. Click ☁️ to upload when backend runs.')
             }
+        }
+    }
+
+    // Sync a single local photo to ImageKit Cloud
+    const handleSyncSingleGalleryPhoto = async (photo) => {
+        if (!photo.url || !photo.url.startsWith('data:image/')) {
+            showToast('Photo is already on Cloud CDN!')
+            return
+        }
+        showToast('⏳ Uploading photo to ImageKit Cloud CDN...')
+        try {
+            const cdnUrl = await uploadImageAPI(photo.url, `gallery_${photo.id || Date.now()}.jpg`)
+            const updated = galleryPhotos.map(p => p.id === photo.id ? { ...p, url: cdnUrl } : p)
+            setGalleryPhotos(updated)
+            saveStoredGalleryPhotos(updated)
+            createGalleryPhotoAPI({ ...photo, url: cdnUrl }).catch(() => {})
+            showToast('✅ Uploaded to ImageKit Cloud CDN!')
+        } catch (err) {
+            console.error('ImageKit upload error:', err)
+            showToast('❌ Upload failed: Make sure backend server is running on port 5000')
+        }
+    }
+
+    // Sync all local gallery photos to ImageKit Cloud
+    const handleSyncAllGalleryPhotos = async () => {
+        const localPhotos = galleryPhotos.filter(p => p.url && p.url.startsWith('data:image/'))
+        if (localPhotos.length === 0) {
+            showToast('All photos are already on Cloud CDN!')
+            return
+        }
+        setIsSyncingGallery(true)
+        showToast(`⏳ Syncing ${localPhotos.length} local photo(s) to ImageKit Cloud...`)
+        let successCount = 0
+        let currentPhotos = [...galleryPhotos]
+
+        for (const photo of localPhotos) {
+            try {
+                const cdnUrl = await uploadImageAPI(photo.url, `gallery_${photo.id || Date.now()}.jpg`)
+                currentPhotos = currentPhotos.map(p => p.id === photo.id ? { ...p, url: cdnUrl } : p)
+                createGalleryPhotoAPI({ ...photo, url: cdnUrl }).catch(() => {})
+                successCount++
+            } catch (err) {
+                console.error(`Failed to sync photo ${photo.id}:`, err)
+            }
+        }
+
+        setGalleryPhotos(currentPhotos)
+        saveStoredGalleryPhotos(currentPhotos)
+        setIsSyncingGallery(false)
+        if (successCount > 0) {
+            showToast(`✅ Successfully uploaded ${successCount} photo(s) to ImageKit Cloud!`)
+        } else {
+            showToast('❌ Sync failed: Ensure backend server is running on port 5000')
         }
     }
 
@@ -294,7 +352,11 @@ export default function Admin() {
         saveStoredGalleryPhotos(updated)
         createGalleryPhotoAPI(newPhoto).catch((err) => console.warn('Gallery create backend notice:', err.message))
         setGalleryForm({ title: '', category: 'Rigid Boxes', url: '' })
-        showToast('Photo uploaded to Gallery showcase!')
+        showToast(
+            newPhoto.url.startsWith('data:image/')
+                ? 'Photo added! (Note: Stored locally in browser; run backend to sync to ImageKit)'
+                : 'Photo uploaded to Gallery showcase on ImageKit CDN!'
+        )
     }
 
     const handleDeleteGalleryPhoto = (id) => {
@@ -1408,58 +1470,119 @@ export default function Admin() {
 
                             {/* Live Gallery Grid */}
                             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-2xs">
-                                <div className="flex items-center justify-between pb-6 border-b border-slate-100">
-                                    <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                                        <span>Current Gallery Showcase</span>
-                                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-100">
+                                    <div className="flex items-center gap-2.5 flex-wrap">
+                                        <h3 className="text-lg font-bold text-slate-900">
+                                            Current Gallery Showcase
+                                        </h3>
+                                        <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-100">
                                             {galleryPhotos.length} Photos
                                         </span>
-                                    </h3>
-                                    <Link
-                                        to="/gallery"
-                                        target="_blank"
-                                        className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1"
-                                    >
-                                        <span>View Live Gallery</span>
-                                        <ExternalLink className="w-3.5 h-3.5" />
-                                    </Link>
+                                        {galleryPhotos.filter(p => p.url && p.url.startsWith('data:image/')).length > 0 && (
+                                            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-600 border border-amber-200 flex items-center gap-1">
+                                                <span>⚠️ {galleryPhotos.filter(p => p.url && p.url.startsWith('data:image/')).length} Local (Pending ImageKit)</span>
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="flex items-center gap-2.5 flex-wrap">
+                                        {galleryPhotos.some(p => p.url && p.url.startsWith('data:image/')) && (
+                                            <button
+                                                type="button"
+                                                onClick={handleSyncAllGalleryPhotos}
+                                                disabled={isSyncingGallery}
+                                                className="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-white shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                                            >
+                                                <CloudUpload className={`w-3.5 h-3.5 ${isSyncingGallery ? 'animate-bounce' : ''}`} />
+                                                <span>{isSyncingGallery ? 'Uploading to ImageKit...' : '⚡ Upload Local Photos to ImageKit'}</span>
+                                            </button>
+                                        )}
+                                        <Link
+                                            to="/gallery"
+                                            target="_blank"
+                                            className="text-xs font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1"
+                                        >
+                                            <span>View Live Gallery</span>
+                                            <ExternalLink className="w-3.5 h-3.5" />
+                                        </Link>
+                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-                                    {galleryPhotos.map((photo) => (
-                                        <div
-                                            key={photo.id}
-                                            className="group relative aspect-square rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs hover:shadow-lg transition-all"
-                                        >
-                                            <img
-                                                src={photo.url}
-                                                alt={photo.title || 'Packaging Showcase'}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                            />
+                                <div className="columns-2 sm:columns-3 lg:columns-4 gap-4 mt-6">
+                                    {galleryPhotos.map((photo) => {
+                                        const isLocal = photo.url && photo.url.startsWith('data:image/')
+                                        return (
+                                            <div
+                                                key={photo.id}
+                                                className="break-inside-avoid mb-4 group relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs hover:shadow-lg transition-all"
+                                            >
+                                                <img
+                                                    src={photo.url}
+                                                    alt={photo.title || 'Packaging Showcase'}
+                                                    className="w-full h-auto block group-hover:scale-103 transition-transform duration-300"
+                                                />
 
-                                            {/* Hover Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between">
-                                                <div className="flex justify-end">
-                                                    <button
-                                                        onClick={() => handleDeleteGalleryPhoto(photo.id)}
-                                                        className="p-1.5 rounded-full bg-rose-600 text-white hover:bg-rose-700 shadow-md transition-colors cursor-pointer"
-                                                        title="Delete Photo"
-                                                    >
-                                                        <Trash2 className="w-3.5 h-3.5" />
-                                                    </button>
+                                                {/* Status Badge in top-left */}
+                                                <div className="absolute top-2 left-2 z-10 pointer-events-none">
+                                                    {isLocal ? (
+                                                        <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-500/95 text-white shadow-sm flex items-center gap-1">
+                                                            <span>⚠️ Local</span>
+                                                        </span>
+                                                    ) : (
+                                                        <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-emerald-600/90 text-white shadow-sm flex items-center gap-1">
+                                                            <Cloud className="w-2.5 h-2.5" />
+                                                            <span>ImageKit</span>
+                                                        </span>
+                                                    )}
                                                 </div>
 
-                                                <div>
-                                                    <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-white/90 text-slate-800">
-                                                        {photo.category || 'Showcase'}
-                                                    </span>
-                                                    <p className="text-[11px] font-semibold text-white mt-1 line-clamp-1">
-                                                        {photo.title || 'Packaging Photo'}
-                                                    </p>
+                                                {/* Hover Overlay */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-between z-20">
+                                                    <div className="flex justify-end gap-1.5">
+                                                        {isLocal && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation()
+                                                                    handleSyncSingleGalleryPhoto(photo)
+                                                                }}
+                                                                className="p-1.5 rounded-full bg-amber-500 text-white hover:bg-amber-600 shadow-md transition-colors cursor-pointer"
+                                                                title="Upload this photo to ImageKit Cloud CDN"
+                                                            >
+                                                                <CloudUpload className="w-3.5 h-3.5" />
+                                                            </button>
+                                                        )}
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation()
+                                                                handleDeleteGalleryPhoto(photo.id)
+                                                            }}
+                                                            className="p-1.5 rounded-full bg-rose-600 text-white hover:bg-rose-700 shadow-md transition-colors cursor-pointer"
+                                                            title="Delete Photo"
+                                                        >
+                                                            <Trash2 className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    </div>
+
+                                                    <div>
+                                                        <div className="flex items-center gap-1.5 mb-1">
+                                                            <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-white/90 text-slate-800">
+                                                                {photo.category || 'Showcase'}
+                                                            </span>
+                                                            {isLocal && (
+                                                                <span className="text-[9px] font-bold text-amber-300">
+                                                                    Click ☁️ to upload
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-[11px] font-semibold text-white mt-1 line-clamp-1">
+                                                            {photo.title || 'Packaging Photo'}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        )
+                                    })}
                                 </div>
                             </div>
                         </div>

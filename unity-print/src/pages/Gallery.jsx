@@ -123,24 +123,25 @@ export default function Gallery() {
                     </button>
                 </div>
 
-                {/* ================= PURE PHOTO GRID (WITHOUT ANY TEXT) ================= */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 md:gap-6">
+                {/* ================= MASONRY PHOTO GRID (NO CROPPING: ZERO SIDES OR TOP CUT) ================= */}
+                <div className="columns-2 md:columns-3 lg:columns-4 gap-3 sm:gap-6">
                     {photos.map((item, index) => (
                         <div
                             key={item.id}
                             onClick={() => openLightbox(index)}
-                            className="group relative aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer"
+                            className="break-inside-avoid mb-3 sm:mb-6 group relative rounded-xl sm:rounded-3xl overflow-hidden bg-slate-100 border border-slate-200/90 shadow-2xs hover:shadow-xl transition-all duration-300 cursor-pointer"
                         >
                             <img
                                 src={item.url}
                                 alt="Gallery item"
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                className="w-full h-auto block group-hover:scale-103 transition-transform duration-500"
+                                loading="lazy"
                             />
 
                             {/* Minimal hover overlay with view icon */}
-                            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <div className="p-3 bg-white/90 backdrop-blur-md rounded-full text-slate-800 shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                                    <Maximize2 className="w-4 h-4" />
+                            <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div className="p-2 sm:p-3 bg-white/90 backdrop-blur-md rounded-full text-slate-800 shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                                    <Maximize2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                                 </div>
                             </div>
                         </div>
@@ -240,11 +241,11 @@ export default function Gallery() {
 
                             {/* Image Preview */}
                             {newPhotoUrl && (
-                                <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs">
+                                <div className="relative aspect-[3/4] max-h-72 w-full rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs mx-auto">
                                     <img
                                         src={newPhotoUrl}
                                         alt="Preview"
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover object-top"
                                     />
                                     <button
                                         type="button"

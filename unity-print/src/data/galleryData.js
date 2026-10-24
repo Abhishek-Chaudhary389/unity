@@ -14,9 +14,9 @@ export const defaultGalleryPhotos = [
     },
     {
         id: 'photo-3',
-        title: 'Boutique Kraft Paper Carry Bag',
-        category: 'Paper Bags',
-        url: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1200&auto=format&fit=crop'
+        title: 'Qoot Jeera Cookies Folding Carton',
+        category: 'Cartons',
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774632176_Clipboard_03-28-2025_06_wdxm6CVZK.webp?updatedAt=1792774634411'
     },
     {
         id: 'photo-4',
@@ -32,9 +32,9 @@ export const defaultGalleryPhotos = [
     },
     {
         id: 'photo-6',
-        title: 'Waterproof Security Roll Labels',
-        category: 'Labels',
-        url: 'https://images.unsplash.com/photo-1608248597359-25081e7d5d78?q=80&w=1200&auto=format&fit=crop'
+        title: 'Bhagawati Hospital Medical File Folder',
+        category: 'Print',
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480'
     },
     {
         id: 'photo-7',
@@ -44,9 +44,9 @@ export const defaultGalleryPhotos = [
     },
     {
         id: 'photo-8',
-        title: 'Corporate Catalogues & Print',
+        title: 'Glamio Beauty Hub Festive Flyer Print',
         category: 'Print',
-        url: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1200&auto=format&fit=crop'
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774736960_8b926310-88f1-46b5-b10d-bcb3ca84cb12_rnTp_Wu0w.webp?updatedAt=1792774738841'
     },
     {
         id: 'photo-9',
@@ -56,9 +56,9 @@ export const defaultGalleryPhotos = [
     },
     {
         id: 'photo-10',
-        title: 'Pharmaceutical Cartons & Inserts',
+        title: 'Qoot Badam Cookies Packaging Carton',
         category: 'Cartons',
-        url: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=1200&auto=format&fit=crop'
+        url: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792772080690_Clipboard_03-28-2025_01_UzRNQNrvW.webp?updatedAt=1792772083109'
     },
     {
         id: 'photo-11',

@@ -213,13 +213,32 @@ export function logoutAdmin() {
 }
 
 // ================= 6. IMAGE UPLOAD API =================
-export async function uploadImageAPI(file) {
-    const formData = new FormData()
-    formData.append('image', file)
-
+export async function uploadImageAPI(fileOrBase64, customFileName = '') {
     const token = localStorage.getItem('adminToken')
     const headers = {}
     if (token) headers['Authorization'] = `Bearer ${token}`
+
+    // Support Base64 string direct upload to ImageKit Cloud
+    if (typeof fileOrBase64 === 'string' && fileOrBase64.startsWith('data:image/')) {
+        const res = await fetch(`${API_BASE}/upload`, {
+            method: 'POST',
+            headers: {
+                ...headers,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                imageBase64: fileOrBase64,
+                fileName: customFileName || `upload_${Date.now()}.jpg`
+            })
+        })
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.message || 'Failed to upload image to ImageKit')
+        return data.url
+    }
+
+    // Multipart file upload
+    const formData = new FormData()
+    formData.append('image', fileOrBase64)
 
     const res = await fetch(`${API_BASE}/upload`, {
         method: 'POST',

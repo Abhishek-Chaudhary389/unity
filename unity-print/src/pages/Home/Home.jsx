@@ -12,101 +12,82 @@ import {
 import unityHeroImg from '../../assets/unity home.png'
 
 export default function Home() {
-    // 5 Showcase packaging items
+    // 4 Showcase packaging & print items from client's portfolio
     const showcaseItems = [
         {
             id: 1,
-            title: 'Luxury Rigid & Magnetic Gift Boxes',
-            category: 'Rigid Gift Boxes',
-            tag: 'Premium Luxury Range',
-            image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?q=80&w=1200&auto=format&fit=crop',
-            description: 'Handcrafted with high-density Kappa greyboard wrapped in imported art paper. Features concealed magnetic flap closures, sharp 90-degree V-groove structural edges, and precision laser-cut velvet EVA foam inserts.',
+            title: 'Custom Food & Cookie Folding Cartons',
+            category: 'Food Packaging Cartons',
+            tag: 'Food-Grade Certified',
+            image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774632176_Clipboard_03-28-2025_06_wdxm6CVZK.webp?updatedAt=1792774634411',
+            description: 'Premium food-grade paperboard folding cartons engineered for bakery, confectionery, and FMCG products. Features vibrant multi-color offset print, food-safe barrier coating, and auto-lock bottom construction.',
             specs: [
-                { label: 'MOQ', value: '500 pcs' },
-                { label: 'Board Thickness', value: '1.5mm - 3.0mm' },
-                { label: 'Finishes', value: 'Gold Foil, Spot UV, Soft-Touch' },
-                { label: 'Closure', value: 'Magnetic / Shoulder Neck' },
+                { label: 'MOQ', value: '1,000 pcs' },
+                { label: 'Paper Board', value: '300 - 400 GSM FBB / ITC' },
+                { label: 'Finishes', value: 'Gloss / Matte UV Coating' },
+                { label: 'Structure', value: 'Crash-Lock / Tuck-End' },
             ],
             points: [
-                'Laser-cut custom velvet EVA foam & satin lining inserts',
-                'Hot metallic foil stamping in Gold, Rose-Gold & Silver',
-                'Ideal for jewelry, perfumes, electronics & corporate gifting',
+                'Food-safe low-migration inks & grease-resistant barrier lining',
+                'High-speed auto-lock bottom for quick manual or automated filling',
+                'Vibrant photo-realistic Heidelberg 4-color process printing',
             ],
         },
         {
             id: 2,
-            title: 'Custom Corrugated Shipping Mailers',
-            category: 'Mailer Cartons',
-            tag: 'D2C E-Commerce Favorite',
-            image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop',
-            description: 'Heavy-duty 3-ply and 5-ply fluted corrugated cartons engineered for maximum crush resistance and unforgettable unboxing moments. Supports high-resolution full-color printing inside and out.',
+            title: 'Hospital & Institutional Case File Folders',
+            category: 'Document & Case Folders',
+            tag: 'Durable Corporate Stationery',
+            image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480',
+            description: 'Heavy-duty laminated medical case file folders and institutional document holders. Designed with custom multi-pocket die-cutting, patient record charts, tear-resistant creasing, and durable long-term storage.',
             specs: [
                 { label: 'MOQ', value: '500 pcs' },
-                { label: 'Flute Types', value: 'E-Flute / B-Flute' },
-                { label: 'Printing', value: 'CMYK Inside-Out Print' },
-                { label: 'Feature', value: 'Self-Locking & Tear-Strip' },
+                { label: 'Paper Stock', value: '300 - 350 GSM Art Card' },
+                { label: 'Lamination', value: 'Gloss / Matte Thermal' },
+                { label: 'Pocket Style', value: 'Single / Dual Die-Cut Pockets' },
             ],
             points: [
-                'Drop-test certified for pan-India courier safety',
-                'Self-locking dust flaps for quick assembly without tape',
-                '100% recyclable, biodegradable kraft corrugated board',
+                'Reinforced spine creasing preventing tears during frequent usage',
+                'Custom bilingual layouts for hospital charts, forms & doctor info',
+                'Moisture-resistant thermal film lamination for extended durability',
             ],
         },
         {
             id: 3,
-            title: 'Eco-Friendly Kraft & Retail Paper Bags',
-            category: 'Retail Paper Bags',
-            tag: '100% Biodegradable',
-            image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1200&auto=format&fit=crop',
-            description: 'Sustainable virgin brown and bleached white kraft paper shopping bags with reinforced bottom cardboards and turn-over tops. Finished with premium twisted paper, braided cotton, or satin ribbon handles.',
+            title: 'Promotional Flyers, Leaflets & Marketing Prints',
+            category: 'Commercial & Promotional Print',
+            tag: 'High-Impact Promotional Print',
+            image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774736960_8b926310-88f1-46b5-b10d-bcb3ca84cb12_rnTp_Wu0w.webp?updatedAt=1792774738841',
+            description: 'High-resolution promotional flyers, sales pamphlets, and festival marketing inserts. Printed with high-speed offset calibration on imported art paper to make retail offers and seasonal campaigns pop.',
             specs: [
                 { label: 'MOQ', value: '1,000 pcs' },
-                { label: 'Paper GSM', value: '180 - 300 GSM' },
-                { label: 'Handles', value: 'Twisted Paper / Cotton Rope' },
-                { label: 'Printing', value: 'Pantone Spot & Offset Print' },
+                { label: 'Paper GSM', value: '130 - 250 GSM Art Paper' },
+                { label: 'Printing', value: 'Full CMYK Offset Process' },
+                { label: 'Sizes', value: 'A4, A5, Flyer / Custom Size' },
             ],
             points: [
-                'Heavy-load carrying capacity with reinforced base board',
-                'Custom handle options in twisted paper, cotton, or satin ribbon',
-                'Boutique foil-stamped or spot color brand monogram',
+                'Crisp high-definition imagery and vivid festival color fidelity',
+                'Cost-effective bulk run pricing with fast turnaround delivery',
+                'Gloss or silk-matte protective varnish coating options',
             ],
         },
         {
             id: 4,
-            title: 'Waterproof Product Labels & Roll Stickers',
-            category: 'Labels & Stickers',
-            tag: 'Precision Die-Cut',
-            image: 'https://images.unsplash.com/photo-1608248597359-25081e7d5d78?q=80&w=1200&auto=format&fit=crop',
-            description: 'High-definition machine-applicable roll labels and sheet stickers crafted for cosmetics, jars, pharmaceuticals, and food packaging. Resistant to water, oil, freezing temperatures, and surface friction.',
+            title: 'Retail Shelf Packaging & Confectionery Cartons',
+            category: 'FMCG Retail Cartons',
+            tag: 'Shelf-Ready Retail Cartons',
+            image: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792772080690_Clipboard_03-28-2025_01_UzRNQNrvW.webp?updatedAt=1792772083109',
+            description: 'Eye-catching branded confectionery and snack retail boxes crafted from premium Cyber XL PAC board. Engineered for maximum shelf appeal, structural rigidity, and seamless unboxing.',
             specs: [
                 { label: 'MOQ', value: '1,000 pcs' },
-                { label: 'Substrates', value: 'Chrome BOPP, Clear Vinyl, Foil' },
-                { label: 'Finish', value: 'Gloss / Matte UV Varnish' },
-                { label: 'Application', value: 'Machine & Manual Rolls' },
+                { label: 'Board Type', value: 'Cyber XL PAC / Virgin Board' },
+                { label: 'Embellishment', value: 'Drip Off / Spot UV / Foil' },
+                { label: 'Use Case', value: 'Cookies, Snacks & Sweets' },
             ],
             points: [
-                'Permanent waterproof & oil-resistant adhesive backing',
-                'Cold foil & holographic metallic highlights available',
-                'Custom contour kiss-cutting for any jar, bottle, or box shape',
-            ],
-        },
-        {
-            id: 5,
-            title: 'Corporate Catalogues & Commercial Print',
-            category: 'Commercial Print',
-            tag: 'Offset Press Precision',
-            image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1200&auto=format&fit=crop',
-            description: 'High-end multi-page product catalogues, corporate profiles, sales brochures, and annual reports printed with Heidelberg offset presses, strict Pantone calibration, and durable library bindings.',
-            specs: [
-                { label: 'MOQ', value: '500 pcs' },
-                { label: 'Binding', value: 'Perfect Thermal / Saddle Stitch' },
-                { label: 'Paper Stocks', value: '170 - 350 GSM Art Card' },
-                { label: 'Embellishments', value: 'Scodix 3D UV & Embossing' },
-            ],
-            points: [
-                'Strict spectrophotometer Pantone color consistency',
-                'Velvet soft-touch thermal lamination for luxurious hand feel',
-                'Custom gatefolds, die-cut covers, and textured finishes',
+                'High structural strength protecting delicate cookies & confectionery',
+                'Sharp die-cutting with custom window patching options available',
+                'Consistent brand colors matching exact packaging guidelines',
             ],
         },
     ]
@@ -166,8 +147,8 @@ export default function Home() {
                 />
 
                 {/* Content Container */}
-                <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-16 w-full pt-8 pb-4 sm:py-12 lg:py-24">
-                    <div className="max-w-xl space-y-4 sm:space-y-6">
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 lg:px-16 w-full pt-8 pb-4 sm:py-12 lg:py-24">
+                    <div className="max-w-xl space-y-4 sm:space-y-6 text-center sm:text-left mx-auto sm:mx-0">
                         {/* Eyebrow Label */}
                         <p className="text-[11px] sm:text-[13px] font-bold tracking-widest uppercase text-[#b47a36]">
                             QUALITY PRINTING FOR YOUR BUSINESS
@@ -175,19 +156,68 @@ export default function Home() {
 
                         {/* Main Headline */}
                         <h1 className="text-3xl sm:text-4xl lg:text-[48px] xl:text-[52px] leading-[1.12] font-serif font-bold text-[#0c1b33] tracking-tight">
-                            Design.<br />
-                            Print. <span className="text-[#c07a2a]">Grow</span><br />
-                            Your Business.
+                            {/* Mobile View: 1 single bold, polished hero line */}
+                            <span className="sm:hidden text-[clamp(18.5px,5.8vw,26px)] font-serif font-extrabold text-[#0c1b33] tracking-[-0.01em] leading-tight block whitespace-nowrap text-center">
+                                Design. Print. <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#b57324] via-[#d48b37] to-[#9e621d]">Grow</span> Your Business.
+                            </span>
+                            {/* Desktop & Tablet View: 3 lines */}
+                            <span className="hidden sm:inline">
+                                Design.<br />
+                                Print. <span className="text-[#c07a2a]">Grow</span><br />
+                                Your Business.
+                            </span>
                         </h1>
 
                         {/* Subtitle Paragraph */}
-                        <p className="text-xs sm:text-sm lg:text-base text-slate-600 leading-relaxed max-w-md">
+                        <p className="text-xs sm:text-sm lg:text-base text-slate-600 leading-relaxed max-w-md mx-auto sm:mx-0 text-center sm:text-left">
                             Your trusted B2B printing partner for all business stationery and promotional
                             printing needs. High quality, timely delivery and bulk order support.
                         </p>
 
-                        {/* CTA Buttons */}
-                        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 pt-1">
+                        {/* Desktop CTA Buttons (Visible on desktop) */}
+                        <div className="hidden lg:flex flex-wrap items-center gap-3.5 pt-1">
+                            <Link
+                                to="/order"
+                                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold bg-[#0c1b33] hover:bg-[#182b4a] text-white shadow-sm hover:shadow-md transition-all"
+                            >
+                                <span>Order Now</span>
+                                <ArrowRight className="w-4 h-4" />
+                            </Link>
+
+                            <a
+                                href="#catalogue"
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    alert('Catalogue download will be available soon.')
+                                }}
+                                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-[#8c5e26] bg-white hover:bg-slate-50 border border-[#cca679] shadow-2xs hover:shadow-xs transition-all cursor-pointer"
+                            >
+                                <Download className="w-3.5 h-3.5 text-[#8c5e26]" />
+                                <span>Download Catalogue</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Mobile Hero Packaging Image + Buttons Below (Visible on mobile/tablet) */}
+                    <div className="lg:hidden mt-6 flex flex-col items-center justify-center w-full">
+                        {croppedHeroImg ? (
+                            <img
+                                src={croppedHeroImg}
+                                alt="Unity Print Pack Packaging Products"
+                                className="w-full max-w-sm sm:max-w-md mx-auto object-contain drop-shadow-sm"
+                            />
+                        ) : (
+                            <div className="w-full max-w-sm sm:max-w-md aspect-[4/3] overflow-hidden flex justify-center items-center">
+                                <img
+                                    src={unityHeroImg}
+                                    alt="Unity Print Pack Packaging Products"
+                                    className="w-[220%] max-w-none h-auto -translate-x-[48%]"
+                                />
+                            </div>
+                        )}
+
+                        {/* Mobile CTA Buttons (Directly below photo) */}
+                        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 pt-5 pb-2">
                             <Link
                                 to="/order"
                                 className="inline-flex items-center gap-2 px-5 py-2.5 sm:px-7 sm:py-3.5 rounded-full text-xs sm:text-sm font-semibold bg-[#0c1b33] hover:bg-[#182b4a] text-white shadow-sm hover:shadow-md transition-all"
@@ -208,25 +238,6 @@ export default function Home() {
                                 <span>Download Catalogue</span>
                             </a>
                         </div>
-                    </div>
-
-                    {/* Mobile Hero Packaging Image (100% Centered Packaging Products) */}
-                    <div className="lg:hidden mt-6 flex justify-center w-full">
-                        {croppedHeroImg ? (
-                            <img
-                                src={croppedHeroImg}
-                                alt="Unity Print Pack Packaging Products"
-                                className="w-full max-w-sm sm:max-w-md mx-auto object-contain drop-shadow-sm"
-                            />
-                        ) : (
-                            <div className="w-full max-w-sm sm:max-w-md aspect-[4/3] overflow-hidden flex justify-center items-center">
-                                <img
-                                    src={unityHeroImg}
-                                    alt="Unity Print Pack Packaging Products"
-                                    className="w-[220%] max-w-none h-auto -translate-x-[48%]"
-                                />
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
@@ -258,24 +269,21 @@ export default function Home() {
                             onMouseLeave={() => setIsPaused(false)}
                         >
                             {/* Main Active Image Box */}
-                            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-slate-200 group">
+                            <div className="relative aspect-[4/3] w-full rounded-2xl overflow-hidden bg-slate-900 shadow-md border border-slate-200 group flex items-center justify-center">
+                                {/* Ambient backdrop blurred layer so any image shape fits beautifully */}
+                                <img
+                                    src={activeItem.image}
+                                    alt=""
+                                    aria-hidden="true"
+                                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-40 scale-110 pointer-events-none"
+                                />
                                 <img
                                     key={activeItem.id}
                                     src={activeItem.image}
                                     alt={activeItem.title}
-                                    className="w-full h-full object-cover transition-all duration-700 ease-out transform group-hover:scale-103"
+                                    className="relative z-1 max-w-full max-h-full object-contain transition-all duration-700 ease-out transform group-hover:scale-102 drop-shadow-md"
                                 />
 
-                                {/* Floating Category Tag */}
-                                <div className="absolute top-3.5 left-3.5 bg-black/65 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-semibold text-white border border-white/20 flex items-center gap-1.5 shadow-sm">
-                                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                                    <span>{activeItem.category}</span>
-                                </div>
-
-                                {/* Slide Counter Badge */}
-                                <div className="absolute top-3.5 right-3.5 bg-black/65 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border border-white/20">
-                                    {String(currentSlide + 1).padStart(2, '0')} / {String(showcaseItems.length).padStart(2, '0')}
-                                </div>
 
                                 {/* Previous Slide Button */}
                                 <button
@@ -304,8 +312,8 @@ export default function Home() {
                                 </div>
                             </div>
 
-                            {/* Thumbnail Row of all 5 Photos for Direct Clicking */}
-                            <div className="grid grid-cols-5 gap-2 pt-1">
+                            {/* Thumbnail Row of all 4 Photos for Direct Clicking */}
+                            <div className="grid grid-cols-4 gap-2 sm:gap-2.5 pt-1">
                                 {showcaseItems.map((item, idx) => (
                                     <button
                                         key={item.id}

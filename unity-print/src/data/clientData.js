@@ -66,7 +66,7 @@ export const initialClients = [
         accentBg: 'bg-slate-100 text-slate-800 border-slate-300',
         partnershipYears: '5+ Years Partner',
         packagingVolume: '600,000 Bags / Year',
-        packagingImage: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=1000&auto=format&fit=crop',
+        packagingImage: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774736960_8b926310-88f1-46b5-b10d-bcb3ca84cb12_rnTp_Wu0w.webp?updatedAt=1792774738841',
         tagline: 'Heavy-GSM Kraft Shopping Bags & Apparel Gift Sleeves',
         description:
             'We supply premium boutique retail carry bags fabricated with 250 GSM virgin brown and bleach-white kraft paper with dual-ply bottom cardboards and braided cotton rope handles.',
@@ -147,7 +147,7 @@ export const initialClients = [
         accentBg: 'bg-cyan-50 text-cyan-800 border-cyan-200',
         partnershipYears: '7+ Years Partner',
         packagingVolume: '3.5 Million Cartons / Year',
-        packagingImage: 'https://images.unsplash.com/photo-1608248597359-25081e7d5d78?q=80&w=1000&auto=format&fit=crop',
+        packagingImage: 'https://ik.imagekit.io/vbzl5fzbj/unity_packaging/1792774748654_File_02__JuIQOKyM.webp?updatedAt=1792774751480',
         tagline: 'ISO-Compliant Folding Cartons & Braille Embossed Packaging',
         description:
             'High-speed automated carton packaging compliant with strict pharmaceutical protocols with high-precision embossed Braille lettering and moisture-resistant virgin SBS board.',

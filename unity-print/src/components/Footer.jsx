@@ -67,15 +67,6 @@ export default function Footer() {
                             Creative Packaging. Complete Solutions. We specialize in custom luxury rigid boxes, corrugated shipping mailers, retail paper bags, product labels, and Heidelberg offset commercial printing for premier brands across India.
                         </p>
 
-                        <div className="pt-2">
-                            <Link
-                                to="/connect"
-                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-sky-500 to-rose-500 hover:from-sky-600 hover:to-rose-600 text-white shadow-sm transition-all"
-                            >
-                                <Package className="w-3.5 h-3.5" />
-                                <span>Get Custom Quote</span>
-                            </Link>
-                        </div>
                     </div>
 
                     {/* Column 3: Quick Navigation */}
